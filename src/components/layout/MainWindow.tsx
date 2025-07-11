@@ -8,10 +8,7 @@ import { WheatIcon } from '../ui/icons';
 
 export function MainWindow() {
   const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen } = useUIContext();
-  const { saveGame, loadGame, harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, farmLevel } = useGameLogicContext();
-
-  // loadGame();
-  // saveGame();
+  const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, farmLevel } = useGameLogicContext();
 
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} border={'3px solid black'} width={'50%'} height={'100%'}>
