@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
 
+import { useTimer } from '../hooks/useTimer';
+
 interface GameLogicContextProps {
   moneyAmount: number;
   cropRespawnTime: number;
@@ -66,8 +68,6 @@ interface GameLogicContextProps {
 const GameLogicContext = createContext<GameLogicContextProps | undefined>(undefined);
 
 export function GameLogicContextProvider({ children }: { children: React.ReactNode }) {
-  const harvestIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
   const [moneyAmount, setMoneyAmount] = useState<number>(Infinity);
   const [cropRespawnTime, setCropRespawnTime] = useState<number>(20);
 
@@ -115,8 +115,7 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         setFarmWorkersMaxAmount(farmWorkersMaxAmount + 5);
         setWheatStorageUpgradeMaxAmount(wheatStorageUpgradeMaxAmount + 5);
         setFertilizerMaxAmount(fertilizerMaxAmount + 5);
-        setTractorMaxAmount(tractorMaxAmount + 5);
-        setFarmLevelCost(farmLevelCost * farmLevel * 2);
+        setFarmLevelCost(farmLevelCost * farmLevel);
       }
     }
   }, [farmLevel]);
@@ -151,19 +150,7 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     }
   }, [tractorAmount]);
 
-  useEffect(() => {
-    harvestIntervalRef.current = setInterval(() => {
-      if (wheatAmount < wheatStorageAmount && tractorAmount > 0) {
-        harvestWheat();
-      }
-    }, autoHarvestTargetSeconds);
-
-    return () => {
-      if (harvestIntervalRef.current) {
-        clearInterval(harvestIntervalRef.current);
-      }
-    };
-  }, [harvestIntervalRef.current]);
+  useTimer({ target: autoHarvestTargetSeconds, callback: autoHarvestWheat });
 
   function upgradeFarm(cost: number, amount: number) {
     if (moneyAmount < cost || farmLevel >= 10) {
@@ -172,6 +159,12 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
     setFarmLevel(farmLevel + amount);
     setMoneyAmount(moneyAmount - cost);
+  }
+
+  function autoHarvestWheat() {
+    if (wheatAmount < wheatStorageAmount && tractorAmount > 0) {
+      harvestWheat();
+    }
   }
 
   function harvestWheat() {
@@ -347,7 +340,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         localStorage.setItem('flourStorage', flourStorageAmount.toString());
         localStorage.setItem('breadStorage', breadStorageAmount.toString());
         localStorage.setItem('targetSeconds', autoHarvestTargetSeconds.toString());
-        localStorage.setItem('harvestIntervalRef', JSON.stringify(harvestIntervalRef.current));
         localStorage.setItem('farmWorkersMaxAmount', farmWorkersMaxAmount.toString());
         localStorage.setItem('windmillWorkersMaxAmount', windmillWorkersMaxAmount.toString());
         localStorage.setItem('bakeryWorkersMaxAmount', bakeryWorkersMaxAmount.toString());
@@ -379,7 +371,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       wheatStorageAmount,
       flourStorageAmount,
       breadStorageAmount,
-      harvestIntervalRef.current,
       farmWorkersMaxAmount,
       windmillWorkersMaxAmount,
       bakeryWorkersMaxAmount,
@@ -415,7 +406,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       const savedFlourStorage = localStorage.getItem('flourStorage');
       const savedBreadStorage = localStorage.getItem('breadStorage');
       const savedTargetSeconds = localStorage.getItem('targetSeconds');
-      const savedHarvestIntervalRef = localStorage.getItem('harvestIntervalRef');
       const savedFarmWorkersMaxAmount = localStorage.getItem('farmWorkersMaxAmount');
       const savedWindmillWorkersMaxAmount = localStorage.getItem('windmillWorkersMaxAmount');
       const savedBakeryWorkersMaxAmount = localStorage.getItem('bakeryWorkersMaxAmount');
@@ -448,7 +438,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         savedFlourStorage &&
         savedBreadStorage &&
         savedTargetSeconds &&
-        savedHarvestIntervalRef &&
         savedFarmWorkersMaxAmount &&
         savedWindmillWorkersMaxAmount &&
         savedBakeryWorkersMaxAmount &&
@@ -480,7 +469,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         setFlourStorageAmount(parseInt(savedFlourStorage));
         setBreadStorageAmount(parseInt(savedBreadStorage));
         setAutoHarvestTargetSeconds(parseInt(savedTargetSeconds));
-        harvestIntervalRef.current = JSON.parse(savedHarvestIntervalRef);
         setFarmWorkersMaxAmount(parseInt(savedFarmWorkersMaxAmount));
         setWindmillWorkersMaxAmount(parseInt(savedWindmillWorkersMaxAmount));
         setBakeryWorkersMaxAmount(parseInt(savedBakeryWorkersMaxAmount));

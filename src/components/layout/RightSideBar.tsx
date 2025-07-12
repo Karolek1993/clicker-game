@@ -155,6 +155,8 @@ export function RightSideBar() {
           <CustomButton
             disabled={tractorAmount >= tractorMaxAmount}
             tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : '$ ' + tractorCost}
+            // disabled
+            // tooltip="Stopped working. Needs to be fixed."
             tooltipPlacement="left"
             onClick={() => upgradeTractor(tractorCost, 1)}
             text="Buy"
