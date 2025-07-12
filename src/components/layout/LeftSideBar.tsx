@@ -4,7 +4,7 @@ import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { CustomButton } from '../ui/custom-button';
 import { Divider } from '../ui/divider';
-import { FarmIcon, WindmillIcon, BakeryIcon, CoinIcon, WheatIcon, FlourIcon, BreadIcon } from '../ui/icons';
+import { FarmIcon, WindmillIcon, BakeryIcon, CoinIcon, WheatIcon } from '../ui/icons';
 
 import { useCurrencyFormater } from '../../hooks/useNumberFormat';
 
