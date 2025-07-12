@@ -9,26 +9,16 @@ interface GameLogicContextProps {
   farmLevel: number;
 
   wheatAmount: number;
-  flourAmount: number;
-  breadAmount: number;
 
   farmWorkersAmount: number;
-  windmillWorkersAmount: number;
-  bakeryWorkersAmount: number;
   wheatStorageUpgradeAmount: number;
-  flourStorageUpgradeAmount: number;
-  breadStorageUpgradeAmount: number;
   fertilizerAmount: number;
   tractorAmount: number;
 
   farmLevelMax: number;
 
   farmWorkersMaxAmount: number;
-  windmillWorkersMaxAmount: number;
-  bakeryWorkersMaxAmount: number;
   wheatStorageUpgradeMaxAmount: number;
-  flourStorageUpgradeMaxAmount: number;
-  breadStorageUpgradeMaxAmount: number;
   fertilizerMaxAmount: number;
   tractorMaxAmount: number;
 
@@ -39,25 +29,15 @@ interface GameLogicContextProps {
   tractorCost: number;
 
   wheatStorageAmount: number;
-  flourStorageAmount: number;
-  breadStorageAmount: number;
 
   upgradeFarm: (cost: number, amount: number) => void;
 
   harvestWheat: () => void;
-  makeFlour: () => void;
-  bakeBread: () => void;
 
   sellWheat: (money: number) => void;
-  sellFlour: (money: number) => void;
-  sellBread: (money: number) => void;
 
   hireFarmWorker: (cost: number, amount: number) => void;
-  hireWindmillWorker: (cost: number, amount: number) => void;
-  hireBakeryWorker: (cost: number, amount: number) => void;
   upgradeWheatStorage: (cost: number, amount: number) => void;
-  upgradeFlourStorage: (cost: number, amount: number) => void;
-  upgardeBreadStorage: (cost: number, amount: number) => void;
   upgradeFerilizer: (cost: number, amount: number) => void;
   upgradeTractor: (cost: number, amount: number) => void;
 
@@ -74,26 +54,16 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   const [farmLevel, setFarmLevel] = useState<number>(1);
 
   const [wheatAmount, setWheatAmount] = useState<number>(0);
-  const [flourAmount, setFlourAmount] = useState<number>(0);
-  const [breadAmount, setBreadAmount] = useState<number>(0);
 
   const [farmWorkersAmount, setFarmWorkersAmount] = useState<number>(0);
-  const [windmillWorkersAmount, setWindmillWorkersAmount] = useState<number>(0);
-  const [bakeryWorkersAmount, setBakeryWorkersAmount] = useState<number>(0);
   const [wheatStorageUpgradeAmount, setWheatStorageUpgradeAmount] = useState<number>(0);
-  const [flourStorageUpgradeAmount, setFlourStorageUpgradeAmount] = useState<number>(0);
-  const [breadStorageUpgradeAmount, setBreadStorageUpgradeAmount] = useState<number>(0);
   const [fertilizerAmount, setFerilizerAmount] = useState<number>(0);
   const [tractorAmount, setTractorAmount] = useState<number>(0);
 
   const [farmLevelMax] = useState<number>(10);
 
   const [farmWorkersMaxAmount, setFarmWorkersMaxAmount] = useState<number>(10);
-  const [windmillWorkersMaxAmount, setWindmillWorkersMaxAmount] = useState<number>(10);
-  const [bakeryWorkersMaxAmount, setBakeryWorkersMaxAmount] = useState<number>(10);
   const [wheatStorageUpgradeMaxAmount, setWheatStorageUpgradeMaxAmount] = useState<number>(10);
-  const [flourStorageUpgradeMaxAmount, setFlourStorageUpgradeMaxAmount] = useState<number>(10);
-  const [breadStorageUpgradeMaxAmount, setBreadStorageUpgradeMaxAmount] = useState<number>(10);
   const [fertilizerMaxAmount, setFertilizerMaxAmount] = useState<number>(20);
   const [tractorMaxAmount, setTractorMaxAmount] = useState<number>(15);
 
@@ -104,8 +74,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   const [tractorCost, setTractorCost] = useState<number>(50000);
 
   const [wheatStorageAmount, setWheatStorageAmount] = useState<number>(100);
-  const [flourStorageAmount, setFlourStorageAmount] = useState<number>(100);
-  const [breadStorageAmount, setBreadStorageAmount] = useState<number>(100);
 
   const [autoHarvestTargetSeconds, setAutoHarvestTargetSeconds] = useState<number>(60000); // 1000 ms = 1 seconds
 
@@ -183,30 +151,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     setWheatAmount(newWheat);
   }
 
-  function makeFlour() {
-    let newFlour: number = flourAmount;
-
-    newFlour += 1;
-
-    if (newFlour > flourStorageAmount) {
-      newFlour = flourStorageAmount;
-    }
-
-    setFlourAmount(newFlour);
-  }
-
-  function bakeBread() {
-    let newBread: number = breadAmount;
-
-    newBread += 1;
-
-    if (newBread > breadStorageAmount) {
-      newBread = breadStorageAmount;
-    }
-
-    setBreadAmount(newBread);
-  }
-
   function sellWheat(money: number) {
     if (wheatAmount <= 0) {
       return;
@@ -218,48 +162,12 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     setMoneyAmount(moneyAmount + currentWheat * money);
   }
 
-  function sellFlour(money: number) {
-    if (flourAmount <= 0) {
-      return;
-    }
-
-    setFlourAmount(flourAmount - 1);
-    setMoneyAmount(moneyAmount + money);
-  }
-
-  function sellBread(money: number) {
-    if (breadAmount <= 0) {
-      return;
-    }
-
-    setBreadAmount(breadAmount - 1);
-    setMoneyAmount(moneyAmount + money);
-  }
-
   function hireFarmWorker(cost: number, amount: number) {
     if (moneyAmount < cost || farmWorkersAmount >= farmWorkersMaxAmount) {
       return;
     }
 
     setFarmWorkersAmount(farmWorkersAmount + amount);
-    setMoneyAmount(moneyAmount - cost);
-  }
-
-  function hireWindmillWorker(cost: number, amount: number) {
-    if (moneyAmount < cost || windmillWorkersAmount >= windmillWorkersMaxAmount) {
-      return;
-    }
-
-    setWindmillWorkersAmount(windmillWorkersAmount + amount);
-    setMoneyAmount(moneyAmount - cost);
-  }
-
-  function hireBakeryWorker(cost: number, amount: number) {
-    if (moneyAmount < cost || bakeryWorkersAmount >= bakeryWorkersMaxAmount) {
-      return;
-    }
-
-    setBakeryWorkersAmount(bakeryWorkersAmount + amount);
     setMoneyAmount(moneyAmount - cost);
   }
 
@@ -271,26 +179,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     setMoneyAmount(moneyAmount - cost);
     setWheatStorageUpgradeAmount(wheatStorageUpgradeAmount + 1);
     setWheatStorageAmount(wheatStorageAmount + amount);
-  }
-
-  function upgradeFlourStorage(cost: number, amount: number) {
-    if (moneyAmount < cost || flourStorageUpgradeAmount >= flourStorageUpgradeMaxAmount) {
-      return;
-    }
-
-    setFlourStorageAmount(flourStorageAmount + amount);
-    setFlourStorageUpgradeAmount(flourStorageUpgradeAmount + 1);
-    setMoneyAmount(moneyAmount - cost);
-  }
-
-  function upgardeBreadStorage(cost: number, amount: number) {
-    if (moneyAmount < cost || breadStorageUpgradeAmount >= breadStorageUpgradeMaxAmount) {
-      return;
-    }
-
-    setBreadStorageAmount(breadStorageAmount + amount);
-    setBreadStorageUpgradeAmount(breadStorageUpgradeAmount + 1);
-    setMoneyAmount(moneyAmount - cost);
   }
 
   function upgradeFerilizer(cost: number, amount: number) {
@@ -322,30 +210,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       timeout.current = setTimeout(() => {
         localStorage.setItem('money', moneyAmount.toString());
         localStorage.setItem('wheat', wheatAmount.toString());
-        localStorage.setItem('flour', flourAmount.toString());
-        localStorage.setItem('bread', breadAmount.toString());
         localStorage.setItem('farmWorkers', farmWorkersAmount.toString());
-        localStorage.setItem('windmillWorkers', windmillWorkersAmount.toString());
-        localStorage.setItem('bakeryWorkers', bakeryWorkersAmount.toString());
         localStorage.setItem('farmWorkersCost', farmWorkerCost.toString());
         localStorage.setItem('wheatStorageUpgrade', wheatStorageUpgradeAmount.toString());
-        localStorage.setItem('flourStorageUpgrade', flourStorageUpgradeAmount.toString());
-        localStorage.setItem('breadStorageUpgrade', breadStorageUpgradeAmount.toString());
         localStorage.setItem('wheatStorageUpgradeCost', wheatStorageUpgradeCost.toString());
         localStorage.setItem('fertilizer', fertilizerAmount.toString());
         localStorage.setItem('fertilizerCost', fertilizerCost.toString());
         localStorage.setItem('tractor', tractorAmount.toString());
         localStorage.setItem('tractorCost', tractorCost.toString());
         localStorage.setItem('wheatStorage', wheatStorageAmount.toString());
-        localStorage.setItem('flourStorage', flourStorageAmount.toString());
-        localStorage.setItem('breadStorage', breadStorageAmount.toString());
         localStorage.setItem('targetSeconds', autoHarvestTargetSeconds.toString());
         localStorage.setItem('farmWorkersMaxAmount', farmWorkersMaxAmount.toString());
-        localStorage.setItem('windmillWorkersMaxAmount', windmillWorkersMaxAmount.toString());
-        localStorage.setItem('bakeryWorkersMaxAmount', bakeryWorkersMaxAmount.toString());
         localStorage.setItem('wheatStorageUpgradeMaxAmount', wheatStorageUpgradeMaxAmount.toString());
-        localStorage.setItem('flourStorageUpgradeMaxAmount', flourStorageUpgradeMaxAmount.toString());
-        localStorage.setItem('breadStorageUpgradeMaxAmount', breadStorageUpgradeMaxAmount.toString());
         localStorage.setItem('fertilizerMaxAmount', fertilizerMaxAmount.toString());
         localStorage.setItem('tractorMaxAmount', tractorMaxAmount.toString());
         localStorage.setItem('farmLevel', farmLevel.toString());
@@ -354,29 +230,17 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     }, [
       moneyAmount,
       wheatAmount,
-      flourAmount,
-      breadAmount,
       farmWorkersAmount,
-      windmillWorkersAmount,
-      bakeryWorkersAmount,
       farmWorkerCost,
       wheatStorageUpgradeAmount,
-      flourStorageUpgradeAmount,
-      breadStorageUpgradeAmount,
       wheatStorageUpgradeCost,
       fertilizerAmount,
       fertilizerCost,
       tractorAmount,
       tractorCost,
       wheatStorageAmount,
-      flourStorageAmount,
-      breadStorageAmount,
       farmWorkersMaxAmount,
-      windmillWorkersMaxAmount,
-      bakeryWorkersMaxAmount,
       wheatStorageUpgradeMaxAmount,
-      flourStorageUpgradeMaxAmount,
-      breadStorageUpgradeMaxAmount,
       fertilizerMaxAmount,
       tractorMaxAmount,
       farmLevel,
@@ -388,30 +252,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     useEffect(() => {
       const savedMoney = localStorage.getItem('money');
       const savedWheat = localStorage.getItem('wheat');
-      const savedFlour = localStorage.getItem('flour');
-      const savedBread = localStorage.getItem('bread');
       const savedFarmWorkers = localStorage.getItem('farmWorkers');
-      const savedWindmillWorkers = localStorage.getItem('windmillWorkers');
-      const savedBakeryWorkers = localStorage.getItem('bakeryWorkers');
       const savedFarmWorkersCost = localStorage.getItem('farmWorkersCost');
       const savedWheatStorageUpgrade = localStorage.getItem('wheatStorageUpgrade');
-      const savedFlourStorageUpgrade = localStorage.getItem('flourStorageUpgrade');
-      const savedBreadStorageUpgrade = localStorage.getItem('breadStorageUpgrade');
       const savedWheatStorageUpgradeCost = localStorage.getItem('wheatStorageUpgradeCost');
       const savedFertilizer = localStorage.getItem('fertilizer');
       const savedFertilizerCost = localStorage.getItem('fertilizerCost');
       const savedTractor = localStorage.getItem('tractor');
       const savedTractorCost = localStorage.getItem('tractorCost');
       const savedWheatStorage = localStorage.getItem('wheatStorage');
-      const savedFlourStorage = localStorage.getItem('flourStorage');
-      const savedBreadStorage = localStorage.getItem('breadStorage');
       const savedTargetSeconds = localStorage.getItem('targetSeconds');
       const savedFarmWorkersMaxAmount = localStorage.getItem('farmWorkersMaxAmount');
-      const savedWindmillWorkersMaxAmount = localStorage.getItem('windmillWorkersMaxAmount');
-      const savedBakeryWorkersMaxAmount = localStorage.getItem('bakeryWorkersMaxAmount');
       const savedWheatStorageUpgradeMaxAmount = localStorage.getItem('wheatStorageUpgradeMaxAmount');
-      const savedFlourStorageUpgradeMaxAmount = localStorage.getItem('flourStorageUpgradeMaxAmount');
-      const savedBreadStorageUpgradeMaxAmount = localStorage.getItem('breadStorageUpgradeMaxAmount');
       const savedFertilizerMaxAmount = localStorage.getItem('fertilizerMaxAmount');
       const savedTractorMaxAmount = localStorage.getItem('tractorMaxAmount');
       const savedFarmLevel = localStorage.getItem('farmLevel');
@@ -420,30 +272,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       if (
         savedMoney &&
         savedWheat &&
-        savedFlour &&
-        savedBread &&
         savedFarmWorkers &&
-        savedWindmillWorkers &&
-        savedBakeryWorkers &&
         savedFarmWorkersCost &&
         savedWheatStorageUpgrade &&
-        savedFlourStorageUpgrade &&
-        savedBreadStorageUpgrade &&
         savedWheatStorageUpgradeCost &&
         savedFertilizer &&
         savedFertilizerCost &&
         savedTractor &&
         savedTractorCost &&
         savedWheatStorage &&
-        savedFlourStorage &&
-        savedBreadStorage &&
         savedTargetSeconds &&
         savedFarmWorkersMaxAmount &&
-        savedWindmillWorkersMaxAmount &&
-        savedBakeryWorkersMaxAmount &&
         savedWheatStorageUpgradeMaxAmount &&
-        savedFlourStorageUpgradeMaxAmount &&
-        savedBreadStorageUpgradeMaxAmount &&
         savedFertilizerMaxAmount &&
         savedTractorMaxAmount &&
         savedFarmLevel &&
@@ -451,30 +291,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       ) {
         setMoneyAmount(parseInt(savedMoney));
         setWheatAmount(parseInt(savedWheat));
-        setFlourAmount(parseInt(savedFlour));
-        setBreadAmount(parseInt(savedBread));
         setFarmWorkersAmount(parseInt(savedFarmWorkers));
-        setWindmillWorkersAmount(parseInt(savedWindmillWorkers));
-        setBakeryWorkersAmount(parseInt(savedBakeryWorkers));
         setFarmWorkerCost(parseInt(savedFarmWorkersCost));
         setWheatStorageUpgradeAmount(parseInt(savedWheatStorageUpgrade));
-        setFlourStorageUpgradeAmount(parseInt(savedFlourStorageUpgrade));
-        setBreadStorageUpgradeAmount(parseInt(savedBreadStorageUpgrade));
         setWheatStorageUpgradeCost(parseInt(savedWheatStorageUpgradeCost));
         setFerilizerAmount(parseInt(savedFertilizer));
         setFertilizerCost(parseInt(savedFertilizerCost));
         setTractorAmount(parseInt(savedTractor));
         setTractorCost(parseInt(savedTractorCost));
         setWheatStorageAmount(parseInt(savedWheatStorage));
-        setFlourStorageAmount(parseInt(savedFlourStorage));
-        setBreadStorageAmount(parseInt(savedBreadStorage));
         setAutoHarvestTargetSeconds(parseInt(savedTargetSeconds));
         setFarmWorkersMaxAmount(parseInt(savedFarmWorkersMaxAmount));
-        setWindmillWorkersMaxAmount(parseInt(savedWindmillWorkersMaxAmount));
-        setBakeryWorkersMaxAmount(parseInt(savedBakeryWorkersMaxAmount));
         setWheatStorageUpgradeMaxAmount(parseInt(savedWheatStorageUpgradeMaxAmount));
-        setFlourStorageUpgradeMaxAmount(parseInt(savedFlourStorageUpgradeMaxAmount));
-        setBreadStorageUpgradeMaxAmount(parseInt(savedBreadStorageUpgradeMaxAmount));
         setFertilizerMaxAmount(parseInt(savedFertilizerMaxAmount));
         setTractorMaxAmount(parseInt(savedTractorMaxAmount));
         setFarmLevel(parseInt(savedFarmLevel));
@@ -490,26 +318,14 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         cropRespawnTime,
         farmLevel,
         wheatAmount,
-        flourAmount,
-        breadAmount,
         farmWorkersAmount,
-        windmillWorkersAmount,
-        bakeryWorkersAmount,
         wheatStorageUpgradeAmount,
-        flourStorageUpgradeAmount,
-        breadStorageUpgradeAmount,
         wheatStorageAmount,
-        flourStorageAmount,
-        breadStorageAmount,
         fertilizerAmount,
         tractorAmount,
         farmLevelMax,
         farmWorkersMaxAmount,
-        windmillWorkersMaxAmount,
-        bakeryWorkersMaxAmount,
         wheatStorageUpgradeMaxAmount,
-        flourStorageUpgradeMaxAmount,
-        breadStorageUpgradeMaxAmount,
         fertilizerMaxAmount,
         tractorMaxAmount,
         farmLevelCost,
@@ -519,17 +335,9 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         tractorCost,
         upgradeFarm,
         harvestWheat,
-        makeFlour,
-        bakeBread,
         sellWheat,
-        sellFlour,
-        sellBread,
         hireFarmWorker,
-        hireWindmillWorker,
-        hireBakeryWorker,
         upgradeWheatStorage,
-        upgradeFlourStorage,
-        upgardeBreadStorage,
         upgradeFerilizer,
         upgradeTractor,
 

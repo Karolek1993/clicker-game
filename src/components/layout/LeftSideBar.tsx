@@ -10,7 +10,7 @@ import { useCurrencyFormater } from '../../hooks/useNumberFormat';
 
 export function LeftSideBar() {
   const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen, setFarmWindow, setWindmillWindow, setBakeryWindow } = useUIContext();
-  const { moneyAmount, wheatAmount, flourAmount, breadAmount, wheatStorageAmount, flourStorageAmount, breadStorageAmount, sellWheat, sellFlour, sellBread } = useGameLogicContext();
+  const { moneyAmount, wheatAmount, wheatStorageAmount, sellWheat } = useGameLogicContext();
 
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} border={'3px solid black'} width={'25%'} height={'100%'} padding={2} gap={2}>
@@ -33,24 +33,6 @@ export function LeftSideBar() {
             </Text>
           </Box>
           <CustomButton onClick={() => sellWheat(10)} text="Sell" />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'60%'} alignItems={'center'}>
-            <FlourIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {flourAmount} / {flourStorageAmount}
-            </Text>
-          </Box>
-          <CustomButton onClick={() => sellFlour(20)} text="Sell" />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'60%'} alignItems={'center'}>
-            <BreadIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {breadAmount} / {breadStorageAmount}
-            </Text>
-          </Box>
-          <CustomButton onClick={() => sellBread(30)} text="Sell" />
         </Box>
       </Box>
     </Box>
