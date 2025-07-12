@@ -6,6 +6,8 @@ import { CustomButton } from '../ui/custom-button';
 import { Divider } from '../ui/divider';
 import { FarmIcon, WindmillIcon, BakeryIcon, CoinIcon, WheatIcon, FlourIcon, BreadIcon } from '../ui/icons';
 
+import { useCurrencyFormater } from '../../hooks/useNumberFormat';
+
 export function LeftSideBar() {
   const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen, setFarmWindow, setWindmillWindow, setBakeryWindow } = useUIContext();
   const { moneyAmount, wheatAmount, flourAmount, breadAmount, wheatStorageAmount, flourStorageAmount, breadStorageAmount, sellWheat, sellFlour, sellBread } = useGameLogicContext();
@@ -20,7 +22,7 @@ export function LeftSideBar() {
       <Box display={'flex'} flexDirection={'column'} width={'100%'} border={'2px solid black'} padding={2} gap={2}>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
           <CoinIcon size={32} color={'yellow'} />
-          <Text fontSize={'xl'}>$: {moneyAmount}</Text>
+          <Text fontSize={'xl'}>$: {useCurrencyFormater(moneyAmount)}</Text>
         </Box>
         <Divider thickness={1} width={'100%'} />
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>

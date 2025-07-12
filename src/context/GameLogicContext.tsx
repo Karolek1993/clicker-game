@@ -68,7 +68,7 @@ interface GameLogicContextProps {
 const GameLogicContext = createContext<GameLogicContextProps | undefined>(undefined);
 
 export function GameLogicContextProvider({ children }: { children: React.ReactNode }) {
-  const [moneyAmount, setMoneyAmount] = useState<number>(Infinity);
+  const [moneyAmount, setMoneyAmount] = useState<number>(100000);
   const [cropRespawnTime, setCropRespawnTime] = useState<number>(20);
 
   const [farmLevel, setFarmLevel] = useState<number>(1);

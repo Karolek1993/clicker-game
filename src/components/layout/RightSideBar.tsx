@@ -6,6 +6,8 @@ import { Divider } from '../ui/divider';
 import { CustomButton } from '../ui/custom-button';
 import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon } from '../ui/icons';
 
+import { useCurrencyFormater } from '../../hooks/useNumberFormat';
+
 export function RightSideBar() {
   const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen } = useUIContext();
   const {
@@ -94,7 +96,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={farmLevel >= farmLevelMax}
-            tooltip={farmLevel >= farmLevelMax ? 'Max' : '$ ' + farmLevelCost}
+            tooltip={farmLevel >= farmLevelMax ? 'Max' : '$ ' + useCurrencyFormater(farmLevelCost)}
             tooltipPlacement="left"
             onClick={() => upgradeFarm(farmLevelCost, 1)}
             text="Upgrade"
@@ -109,7 +111,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={farmWorkersAmount >= farmWorkersMaxAmount}
-            tooltip={farmWorkersAmount >= farmWorkersMaxAmount ? 'Max' : '$ ' + farmWorkerCost}
+            tooltip={farmWorkersAmount >= farmWorkersMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(farmWorkerCost)}
             tooltipPlacement="left"
             onClick={() => hireFarmWorker(farmWorkerCost, 1)}
             text="Hire"
@@ -124,7 +126,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount}
-            tooltip={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount ? 'Max' : '$ ' + wheatStorageUpgradeCost}
+            tooltip={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(wheatStorageUpgradeCost)}
             tooltipPlacement="left"
             onClick={() => upgradeWheatStorage(wheatStorageUpgradeCost, 100)}
             text="Buy"
@@ -139,7 +141,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={fertilizerAmount >= fertilizerMaxAmount}
-            tooltip={fertilizerAmount >= fertilizerMaxAmount ? 'Max' : '$ ' + fertilizerCost}
+            tooltip={fertilizerAmount >= fertilizerMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(fertilizerCost)}
             tooltipPlacement="left"
             onClick={() => upgradeFerilizer(fertilizerCost, 1)}
             text="Buy"
@@ -154,7 +156,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={tractorAmount >= tractorMaxAmount}
-            tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : '$ ' + tractorCost}
+            tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(tractorCost)}
             // disabled
             // tooltip="Stopped working. Needs to be fixed."
             tooltipPlacement="left"
