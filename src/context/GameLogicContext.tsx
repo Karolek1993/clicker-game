@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
 
-import { useTimer } from '../hooks/useTimer';
+import { useTimer } from '../hooks/Timer';
 
 interface GameLogicContextProps {
   moneyAmount: number;
@@ -48,8 +48,8 @@ interface GameLogicContextProps {
 const GameLogicContext = createContext<GameLogicContextProps | undefined>(undefined);
 
 export function GameLogicContextProvider({ children }: { children: React.ReactNode }) {
-  const [moneyAmount, setMoneyAmount] = useState<number>(100000);
-  const [cropRespawnTime, setCropRespawnTime] = useState<number>(20);
+  const [moneyAmount, setMoneyAmount] = useState<number>(100000000);
+  const [cropRespawnTime, setCropRespawnTime] = useState<number>(60);
 
   const [farmLevel, setFarmLevel] = useState<number>(1);
 
@@ -90,12 +90,8 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
   useEffect(() => {
     for (let i = 0; i < farmWorkersAmount; i++) {
-      setCropRespawnTime(cropRespawnTime - 2);
+      setCropRespawnTime(cropRespawnTime - 1);
       setFarmWorkerCost(farmWorkerCost * farmWorkersAmount);
-
-      if (farmWorkersAmount >= 10) {
-        setCropRespawnTime(0);
-      }
     }
   }, [farmWorkersAmount]);
 

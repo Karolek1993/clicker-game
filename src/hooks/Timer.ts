@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 
-type Timer = {
+interface TimerProps  {
   target: number;
   callback: () => void;
 };
 
-export function useTimer(timer: Timer) {
+export function useTimer(props: TimerProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startInterval = () => {
@@ -16,8 +16,8 @@ export function useTimer(timer: Timer) {
 
     // Start a new interval
     intervalRef.current = setInterval(() => {
-      timer.callback();
-    }, timer.target);
+      props.callback();
+    }, props.target);
   };
 
   useEffect(() => {
@@ -29,5 +29,5 @@ export function useTimer(timer: Timer) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [intervalRef.current, timer.callback]);
+  }, [intervalRef.current, props.callback]);
 }

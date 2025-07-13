@@ -4,12 +4,13 @@ import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
 import { CustomButton } from '../ui/custom-button';
+import { CustomPopoverContent } from '../ui/custom-popover-content';
 import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon } from '../ui/icons';
 
-import { useCurrencyFormater } from '../../hooks/useNumberFormat';
+import { useCurrencyFormater } from '../../hooks/NumberFormater';
 
 export function RightSideBar() {
-  const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen } = useUIContext();
+  const { farmWindowOpen } = useUIContext();
   const {
     farmWorkersAmount,
     farmWorkersMaxAmount,
@@ -48,38 +49,16 @@ export function RightSideBar() {
             </Popover.Trigger>
             <Portal>
               <Popover.Positioner>
-                <Popover.Content width={'720px'}>
+                <Popover.Content width={'1024px'} borderRadius={0}>
                   <Popover.Body display={'flex'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
-                    <Popover.Content bg={'grey'} display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'} padding={2} gap={2}>
-                      <UpgradeIcon size={32} color={'yellow'} />
-                      <Text fontSize={'md'} fontWeight={'bolder'}>
-                        1 Level increase other upgrades capacity by 5 . From level 5 increase field size.
-                      </Text>
-                    </Popover.Content>
-                    <Popover.Content bg={'grey'} display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'} padding={2} gap={2}>
-                      <FarmerIcon size={32} color={'yellow'} />
-                      <Text fontSize={'md'} fontWeight={'bolder'}>
-                        1 Farmer increase the seeding speed by 2 seconds.
-                      </Text>
-                    </Popover.Content>
-                    <Popover.Content bg={'grey'} display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'} padding={2} gap={2}>
-                      <SiloIcon size={32} color={'yellow'} />
-                      <Text fontSize={'md'} fontWeight={'bolder'}>
-                        1 Silo increase the storage capacity by 100.
-                      </Text>
-                    </Popover.Content>
-                    <Popover.Content bg={'grey'} display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'} padding={2} gap={2}>
-                      <FertilizerIcon size={32} color={'yellow'} />
-                      <Text fontSize={'md'} fontWeight={'bolder'}>
-                        1 Bag of fertilizer increase the production of wheat by 2.
-                      </Text>
-                    </Popover.Content>
-                    <Popover.Content bg={'grey'} display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'} padding={2} gap={2}>
-                      <TractorIcon size={32} color={'yellow'} />
-                      <Text fontSize={'md'} fontWeight={'bolder'}>
-                        1 Tractor harvest wheat automatically every 60 seconds.
-                      </Text>
-                    </Popover.Content>
+                    <CustomPopoverContent
+                      icon={<UpgradeIcon size={32} color={'yellow'} />}
+                      text={'1 Level increase other upgrades capacity by 5. From level 5 increase field size.'}
+                    />
+                    <CustomPopoverContent icon={<FarmerIcon size={32} color={'yellow'} />} text={'1 Farmer increase the seeding speed by 1 seconds.'} />
+                    <CustomPopoverContent icon={<SiloIcon size={32} color={'yellow'} />} text={'1 Silo increase the storage capacity by 100.'} />
+                    <CustomPopoverContent icon={<FertilizerIcon size={32} color={'yellow'} />} text={'1 Bag of fertilizer increase the production of wheat by 2.'} />
+                    <CustomPopoverContent icon={<TractorIcon size={32} color={'yellow'} />} text={'1 Tractor harvest wheat automatically every 60 seconds.'} />
                   </Popover.Body>
                 </Popover.Content>
               </Popover.Positioner>
@@ -96,7 +75,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={farmLevel >= farmLevelMax}
-            tooltip={farmLevel >= farmLevelMax ? 'Max' : '$ ' + useCurrencyFormater(farmLevelCost)}
+            tooltip={farmLevel >= farmLevelMax ? 'Max' : useCurrencyFormater(farmLevelCost)}
             tooltipPlacement="left"
             onClick={() => upgradeFarm(farmLevelCost, 1)}
             text="Upgrade"
@@ -111,7 +90,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={farmWorkersAmount >= farmWorkersMaxAmount}
-            tooltip={farmWorkersAmount >= farmWorkersMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(farmWorkerCost)}
+            tooltip={farmWorkersAmount >= farmWorkersMaxAmount ? 'Max' : useCurrencyFormater(farmWorkerCost)}
             tooltipPlacement="left"
             onClick={() => hireFarmWorker(farmWorkerCost, 1)}
             text="Hire"
@@ -126,7 +105,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount}
-            tooltip={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(wheatStorageUpgradeCost)}
+            tooltip={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount ? 'Max' : useCurrencyFormater(wheatStorageUpgradeCost)}
             tooltipPlacement="left"
             onClick={() => upgradeWheatStorage(wheatStorageUpgradeCost, 100)}
             text="Buy"
@@ -141,7 +120,7 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={fertilizerAmount >= fertilizerMaxAmount}
-            tooltip={fertilizerAmount >= fertilizerMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(fertilizerCost)}
+            tooltip={fertilizerAmount >= fertilizerMaxAmount ? 'Max' : useCurrencyFormater(fertilizerCost)}
             tooltipPlacement="left"
             onClick={() => upgradeFerilizer(fertilizerCost, 1)}
             text="Buy"
@@ -156,28 +135,12 @@ export function RightSideBar() {
           </Box>
           <CustomButton
             disabled={tractorAmount >= tractorMaxAmount}
-            tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : '$ ' + useCurrencyFormater(tractorCost)}
+            tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : useCurrencyFormater(tractorCost)}
             tooltipPlacement="left"
             onClick={() => upgradeTractor(tractorCost, 1)}
             text="Buy"
           />
         </Box>
-      </Box>
-      <Box display={windmillWindowOpen ? 'flex' : 'none'} flexDirection={'column'} width={'100%'} border={'2px solid black'} padding={2} gap={2}>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'}>
-          <Text fontSize={'xl'} fontWeight={'bolder'}>
-            WINDMILL UPGRADES
-          </Text>
-        </Box>
-        <Divider thickness={1} width={'100%'} />
-      </Box>
-      <Box display={bakeryWindowOpen ? 'flex' : 'none'} flexDirection={'column'} width={'100%'} border={'2px solid black'} padding={2} gap={2}>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'}>
-          <Text fontSize={'xl'} fontWeight={'bolder'}>
-            BAKERY UPGRADES
-          </Text>
-        </Box>
-        <Divider thickness={1} width={'100%'} />
       </Box>
     </Box>
   );

@@ -1,13 +1,17 @@
 import { Container } from '@chakra-ui/react';
 import { Toaster } from './components/ui/toaster';
 
-import { UIContextProvider } from './context/UIContext';
-import { GameLogicContextProvider } from './context/GameLogicContext';
+// import { useGameLogicContext } from './context/GameLogicContext';
 import { LeftSideBar } from './components/layout/LeftSideBar';
 import { MainWindow } from './components/layout/MainWindow';
 import { RightSideBar } from './components/layout/RightSideBar';
 
 export function App() {
+  // const { saveGame, loadGame } = useGameLogicContext();
+
+  // loadGame();
+  // saveGame();
+
   return (
     <Container
       display={'flex'}
@@ -20,14 +24,10 @@ export function App() {
       padding={2}
       gap={2}
     >
-      <UIContextProvider>
-        <GameLogicContextProvider>
-          <LeftSideBar />
-          <MainWindow />
-          <RightSideBar />
-          <Toaster />
-        </GameLogicContextProvider>
-      </UIContextProvider>
+      <LeftSideBar />
+      <MainWindow />
+      <RightSideBar />
+      <Toaster />
     </Container>
   );
 }

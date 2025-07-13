@@ -7,9 +7,9 @@ import { Crop } from '../Crop';
 import { WheatIcon } from '../ui/icons';
 
 export function MainWindow() {
-  const { farmWindowOpen, windmillWindowOpen, bakeryWindowOpen } = useUIContext();
+  const { farmWindowOpen } = useUIContext();
   const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, farmLevel } = useGameLogicContext();
-
+  
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} border={'3px solid black'} width={'50%'} height={'100%'}>
       <Box width={'100%'} height={'100%'} padding={2}>
@@ -35,9 +35,6 @@ export function MainWindow() {
             ))}
           </Wrap>
         </Box>
-
-        {windmillWindowOpen && 'Windmill'}
-        {bakeryWindowOpen && 'Bakery'}
       </Box>
     </Box>
   );

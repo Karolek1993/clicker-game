@@ -12,7 +12,7 @@ interface CropProps {
 }
 
 export function Crop(props: CropProps) {
-  const targetSeconds = props.cropRespawnTime as number;
+  const targetSeconds: number = props.cropRespawnTime;
 
   const [active, setActive] = useState<boolean>(false);
   const [secondsLeft, setSecondsLeft] = useState<number>(targetSeconds);
