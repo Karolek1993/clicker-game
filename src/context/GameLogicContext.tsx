@@ -7,16 +7,13 @@ interface GameLogicContextProps {
   cropRespawnTime: number;
 
   farmLevel: number;
-
   wheatAmount: number;
-
   farmWorkersAmount: number;
   wheatStorageUpgradeAmount: number;
   fertilizerAmount: number;
   tractorAmount: number;
 
   farmLevelMax: number;
-
   farmWorkersMaxAmount: number;
   wheatStorageUpgradeMaxAmount: number;
   fertilizerMaxAmount: number;
@@ -30,12 +27,10 @@ interface GameLogicContextProps {
 
   wheatStorageAmount: number;
 
-  upgradeFarm: (cost: number, amount: number) => void;
-
   harvestWheat: () => void;
-
   sellWheat: (money: number) => void;
 
+  upgradeFarm: (cost: number, amount: number) => void;
   hireFarmWorker: (cost: number, amount: number) => void;
   upgradeWheatStorage: (cost: number, amount: number) => void;
   upgradeFerilizer: (cost: number, amount: number) => void;
@@ -52,16 +47,13 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   const [cropRespawnTime, setCropRespawnTime] = useState<number>(60);
 
   const [farmLevel, setFarmLevel] = useState<number>(1);
-
   const [wheatAmount, setWheatAmount] = useState<number>(0);
-
   const [farmWorkersAmount, setFarmWorkersAmount] = useState<number>(0);
   const [wheatStorageUpgradeAmount, setWheatStorageUpgradeAmount] = useState<number>(0);
   const [fertilizerAmount, setFerilizerAmount] = useState<number>(0);
   const [tractorAmount, setTractorAmount] = useState<number>(0);
 
   const [farmLevelMax] = useState<number>(10);
-
   const [farmWorkersMaxAmount, setFarmWorkersMaxAmount] = useState<number>(10);
   const [wheatStorageUpgradeMaxAmount, setWheatStorageUpgradeMaxAmount] = useState<number>(10);
   const [fertilizerMaxAmount, setFertilizerMaxAmount] = useState<number>(20);
@@ -116,15 +108,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
   useTimer({ target: autoHarvestTargetSeconds, callback: autoHarvestWheat });
 
-  function upgradeFarm(cost: number, amount: number) {
-    if (moneyAmount < cost || farmLevel >= 10) {
-      return;
-    }
-
-    setFarmLevel(farmLevel + amount);
-    setMoneyAmount(moneyAmount - cost);
-  }
-
   function autoHarvestWheat() {
     if (wheatAmount < wheatStorageAmount && tractorAmount > 0) {
       harvestWheat();
@@ -164,6 +147,15 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     }
 
     setFarmWorkersAmount(farmWorkersAmount + amount);
+    setMoneyAmount(moneyAmount - cost);
+  }
+
+  function upgradeFarm(cost: number, amount: number) {
+    if (moneyAmount < cost || farmLevel >= 10) {
+      return;
+    }
+
+    setFarmLevel(farmLevel + amount);
     setMoneyAmount(moneyAmount - cost);
   }
 
@@ -348,8 +340,10 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
 export function useGameLogicContext() {
   const context = useContext(GameLogicContext);
+
   if (context === undefined) {
     throw new Error('useGameLogicContext must be used within a GameLogicContextProvider');
   }
+
   return context;
 }
