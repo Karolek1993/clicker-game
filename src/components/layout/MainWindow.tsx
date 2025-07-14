@@ -4,7 +4,7 @@ import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
 import { Crop } from '../Crop';
-import { WheatIcon } from '../ui/icons';
+import { WheatIcon, FieldIcon } from '../ui/icons';
 
 export function MainWindow() {
   const { farmWindowOpen } = useUIContext();
@@ -15,8 +15,9 @@ export function MainWindow() {
       <Box width={'100%'} height={'100%'} padding={2}>
         <Box display={farmWindowOpen ? 'flex' : 'none'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
           <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
+            <FieldIcon size={48} color="yellow" />
             <Text fontSize={'xl'} fontWeight={'bolder'}>
-              WHEAT FARM
+              WHEAT FIELDS
             </Text>
           </Box>
           <Divider thickness={1} width={'100%'} />

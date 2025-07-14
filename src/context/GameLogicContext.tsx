@@ -116,7 +116,54 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   useEffect(() => {
     for (let i = 0; i < tractorAmount; i++) {
       setTractorCost(tractorCost * tractorAmount);
-      setAutoHarvestTargetSeconds(autoHarvestTargetSeconds - tractorAmount * 450);
+    }
+
+    switch (tractorAmount) {
+      case 1:
+        setAutoHarvestTargetSeconds(60000);
+        break;
+      case 2:
+        setAutoHarvestTargetSeconds(56000);
+        break;
+      case 3:
+        setAutoHarvestTargetSeconds(52000);
+        break;
+      case 4:
+        setAutoHarvestTargetSeconds(48000);
+        break;
+      case 5:
+        setAutoHarvestTargetSeconds(44000);
+        break;
+      case 6:
+        setAutoHarvestTargetSeconds(40000);
+        break;
+      case 7:
+        setAutoHarvestTargetSeconds(36000);
+        break;
+      case 8:
+        setAutoHarvestTargetSeconds(32000);
+        break;
+      case 9:
+        setAutoHarvestTargetSeconds(28000);
+        break;
+      case 10:
+        setAutoHarvestTargetSeconds(24000);
+        break;
+      case 11:
+        setAutoHarvestTargetSeconds(20000);
+        break;
+      case 12:
+        setAutoHarvestTargetSeconds(16000);
+        break;
+      case 13:
+        setAutoHarvestTargetSeconds(12000);
+        break;
+      case 14:
+        setAutoHarvestTargetSeconds(8000);
+        break;
+      case 15:
+        setAutoHarvestTargetSeconds(4000);
+        break;
     }
   }, [tractorAmount]);
 
