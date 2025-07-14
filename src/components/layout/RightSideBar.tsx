@@ -3,11 +3,9 @@ import { Box, Text, IconButton, Popover, Portal } from '@chakra-ui/react';
 import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
-import { CustomButton } from '../ui/custom-button';
 import { CustomPopoverContent } from '../ui/custom-popover-content';
+import { UpgradeSection } from '../UpgradeSection';
 import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon, FieldIcon } from '../ui/icons';
-
-import { useCurrencyFormater } from '../../hooks/NumberFormater';
 
 export function RightSideBar() {
   const { farmWindowOpen } = useUIContext();
@@ -68,97 +66,60 @@ export function RightSideBar() {
           </Popover.Root>
         </Box>
         <Divider thickness={1} width={'100%'} />
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <UpgradeIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {farmLevel} / {farmLevelMax}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={farmLevel >= farmLevelMax}
-            tooltip={farmLevel >= farmLevelMax ? 'Max' : useCurrencyFormater(farmLevelCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeFarm(farmLevelCost, 1)}
-            text="Upgrade"
-          />
-        </Box>
-
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <FarmerIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {farmWorkersAmount} / {farmWorkersMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={farmWorkersAmount >= farmWorkersMaxAmount}
-            tooltip={farmWorkersAmount >= farmWorkersMaxAmount ? 'Max' : useCurrencyFormater(farmWorkerCost)}
-            tooltipPlacement="left"
-            onClick={() => hireFarmWorker(farmWorkerCost, 1)}
-            text="Hire"
-          />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <FieldIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {wheatFieldAmount} / {wheatFieldMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={wheatFieldAmount >= wheatFieldMaxAmount}
-            tooltip={wheatFieldAmount >= wheatFieldMaxAmount ? 'Max' : useCurrencyFormater(wheatFieldCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeWheatField(wheatFieldCost, 1)}
-            text="Buy"
-          />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <SiloIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {wheatStorageUpgradeAmount} / {wheatStorageUpgradeMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount}
-            tooltip={wheatStorageUpgradeAmount >= wheatStorageUpgradeMaxAmount ? 'Max' : useCurrencyFormater(wheatStorageUpgradeCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeWheatStorage(wheatStorageUpgradeCost, 100)}
-            text="Buy"
-          />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <FertilizerIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {fertilizerAmount} / {fertilizerMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={fertilizerAmount >= fertilizerMaxAmount}
-            tooltip={fertilizerAmount >= fertilizerMaxAmount ? 'Max' : useCurrencyFormater(fertilizerCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeFerilizer(fertilizerCost, 1)}
-            text="Buy"
-          />
-        </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <TractorIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {tractorAmount} / {tractorMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={tractorAmount >= tractorMaxAmount}
-            tooltip={tractorAmount >= tractorMaxAmount ? 'Max' : useCurrencyFormater(tractorCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeTractor(tractorCost, 1)}
-            text="Buy"
-          />
-        </Box>
+        <UpgradeSection
+          icon={<UpgradeIcon size={32} color={'yellow'} />}
+          amount={farmLevel}
+          maxAmount={farmLevelMax}
+          cost={farmLevelCost}
+          upgradeAmount={1}
+          upgrade={upgradeFarm}
+          text="Upgrade"
+        />
+        <UpgradeSection
+          icon={<FarmerIcon size={32} color={'yellow'} />}
+          amount={farmWorkersAmount}
+          maxAmount={farmWorkersMaxAmount}
+          cost={farmWorkerCost}
+          upgradeAmount={1}
+          upgrade={hireFarmWorker}
+          text="Hire"
+        />
+        <UpgradeSection
+          icon={<FieldIcon size={32} color={'yellow'} />}
+          amount={wheatFieldAmount}
+          maxAmount={wheatFieldMaxAmount}
+          cost={wheatFieldCost}
+          upgradeAmount={1}
+          upgrade={upgradeWheatField}
+          text="Buy"
+        />
+        <UpgradeSection
+          icon={<SiloIcon size={32} color={'yellow'} />}
+          amount={wheatStorageUpgradeAmount}
+          maxAmount={wheatStorageUpgradeMaxAmount}
+          cost={wheatStorageUpgradeCost}
+          upgradeAmount={100}
+          upgrade={upgradeWheatStorage}
+          text="Buy"
+        />
+        <UpgradeSection
+          icon={<FertilizerIcon size={32} color={'yellow'} />}
+          amount={fertilizerAmount}
+          maxAmount={fertilizerMaxAmount}
+          cost={fertilizerCost}
+          upgradeAmount={1}
+          upgrade={upgradeFerilizer}
+          text="Buy"
+        />
+        <UpgradeSection
+          icon={<TractorIcon size={32} color={'yellow'} />}
+          amount={tractorAmount}
+          maxAmount={tractorMaxAmount}
+          cost={tractorCost}
+          upgradeAmount={1}
+          upgrade={upgradeTractor}
+          text="Buy"
+        />
       </Box>
     </Box>
   );

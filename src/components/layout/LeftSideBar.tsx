@@ -4,6 +4,7 @@ import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { CustomButton } from '../ui/custom-button';
 import { Divider } from '../ui/divider';
+import { StorageSection } from '../StorageSection';
 import { FarmIcon, CoinIcon, WheatIcon } from '../ui/icons';
 
 import { useCurrencyFormater } from '../../hooks/NumberFormater';
@@ -23,15 +24,7 @@ export function LeftSideBar() {
           <Text fontSize={'xl'}>{useCurrencyFormater(moneyAmount)}</Text>
         </Box>
         <Divider thickness={1} width={'100%'} />
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'60%'} alignItems={'center'}>
-            <WheatIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {wheatAmount} / {wheatStorageAmount}
-            </Text>
-          </Box>
-          <CustomButton onClick={() => sellWheat(10)} text="Sell" />
-        </Box>
+        <StorageSection icon={<WheatIcon size={32} color={'yellow'} />} amount={wheatAmount} maxAmount={wheatStorageAmount} sell={sellWheat} sellAmount={10} />
       </Box>
     </Box>
   );
