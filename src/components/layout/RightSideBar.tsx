@@ -5,13 +5,17 @@ import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
 import { CustomButton } from '../ui/custom-button';
 import { CustomPopoverContent } from '../ui/custom-popover-content';
-import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon } from '../ui/icons';
+import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon, FieldIcon } from '../ui/icons';
 
 import { useCurrencyFormater } from '../../hooks/NumberFormater';
 
 export function RightSideBar() {
   const { farmWindowOpen } = useUIContext();
   const {
+    wheatFieldAmount,
+    wheatFieldMaxAmount,
+    wheatFieldCost,
+    upgradeWheatField,
     farmWorkersAmount,
     farmWorkersMaxAmount,
     farmWorkerCost,
@@ -49,16 +53,14 @@ export function RightSideBar() {
             </Popover.Trigger>
             <Portal>
               <Popover.Positioner>
-                <Popover.Content width={'1024px'} borderRadius={0}>
+                <Popover.Content width={'720px'} borderRadius={0}>
                   <Popover.Body display={'flex'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
-                    <CustomPopoverContent
-                      icon={<UpgradeIcon size={32} color={'yellow'} />}
-                      text={'1 Level increase other upgrades capacity by 5. From level 5 increase field size.'}
-                    />
-                    <CustomPopoverContent icon={<FarmerIcon size={32} color={'yellow'} />} text={'1 Farmer increase the seeding speed by 1 seconds.'} />
-                    <CustomPopoverContent icon={<SiloIcon size={32} color={'yellow'} />} text={'1 Silo increase the storage capacity by 100.'} />
-                    <CustomPopoverContent icon={<FertilizerIcon size={32} color={'yellow'} />} text={'1 Bag of fertilizer increase the production of wheat by 2.'} />
-                    <CustomPopoverContent icon={<TractorIcon size={32} color={'yellow'} />} text={'1 Tractor harvest wheat automatically every 60 seconds.'} />
+                    <CustomPopoverContent icon={<UpgradeIcon size={32} color={'yellow'} />} text={'Increase other upgrades capacity by 5. '} />
+                    <CustomPopoverContent icon={<FieldIcon size={32} color={'yellow'} />} text={'Increase the amount of wheat field by 1.'} />
+                    <CustomPopoverContent icon={<FarmerIcon size={32} color={'yellow'} />} text={'Increase the seeding speed by 1 second.'} />
+                    <CustomPopoverContent icon={<SiloIcon size={32} color={'yellow'} />} text={'Increase the storage capacity by 100.'} />
+                    <CustomPopoverContent icon={<FertilizerIcon size={32} color={'yellow'} />} text={'Increase the production of wheat by 2.'} />
+                    <CustomPopoverContent icon={<TractorIcon size={32} color={'yellow'} />} text={'Harvest wheat automatically every 60 seconds.'} />
                   </Popover.Body>
                 </Popover.Content>
               </Popover.Positioner>
@@ -79,6 +81,21 @@ export function RightSideBar() {
             tooltipPlacement="left"
             onClick={() => upgradeFarm(farmLevelCost, 1)}
             text="Upgrade"
+          />
+        </Box>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
+            <FieldIcon size={32} color={'yellow'} />
+            <Text fontSize={'xl'}>
+              {wheatFieldAmount} / {wheatFieldMaxAmount}
+            </Text>
+          </Box>
+          <CustomButton
+            disabled={wheatFieldAmount >= wheatFieldMaxAmount}
+            tooltip={wheatFieldAmount >= wheatFieldMaxAmount ? 'Max' : useCurrencyFormater(wheatFieldCost)}
+            tooltipPlacement="left"
+            onClick={() => upgradeWheatField(wheatFieldCost, 1)}
+            text="Buy"
           />
         </Box>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>

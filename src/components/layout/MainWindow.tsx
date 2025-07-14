@@ -8,8 +8,8 @@ import { WheatIcon } from '../ui/icons';
 
 export function MainWindow() {
   const { farmWindowOpen } = useUIContext();
-  const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, farmLevel } = useGameLogicContext();
-  
+  const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, wheatFieldAmount } = useGameLogicContext();
+
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} border={'3px solid black'} width={'50%'} height={'100%'}>
       <Box width={'100%'} height={'100%'} padding={2}>
@@ -21,7 +21,7 @@ export function MainWindow() {
           </Box>
           <Divider thickness={1} width={'100%'} />
           <Wrap key={'wheat-crops'} justify={'center'} gap={2}>
-            {Array.from({ length: farmLevel > 4 ? farmLevel * 3 : 9 }, (_, index) => (
+            {Array.from({ length: 9 + wheatFieldAmount }, (_, index) => (
               <WrapItem key={index}>
                 <Crop
                   cropRespawnTime={cropRespawnTime}
