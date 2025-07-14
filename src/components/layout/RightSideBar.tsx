@@ -58,7 +58,7 @@ export function RightSideBar() {
                     <CustomPopoverContent icon={<FieldIcon size={32} color={'yellow'} />} text={'Increase the amount of wheat field by 1.'} />
                     <CustomPopoverContent icon={<SiloIcon size={32} color={'yellow'} />} text={'Increase the storage capacity by 100.'} />
                     <CustomPopoverContent icon={<FertilizerIcon size={32} color={'yellow'} />} text={'Increase the production of wheat by 2.'} />
-                    <CustomPopoverContent icon={<TractorIcon size={32} color={'yellow'} />} text={'Harvest wheat automatically.'} />
+                    <CustomPopoverContent icon={<TractorIcon size={32} color={'yellow'} />} text={'Automatic harvest. Harvesting time is reduced by 4 seconds per tractor.'} />
                   </Popover.Body>
                 </Popover.Content>
               </Popover.Positioner>
