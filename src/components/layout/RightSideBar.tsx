@@ -5,7 +5,7 @@ import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
 import { CustomPopoverContent } from '../ui/custom-popover-content';
 import { UpgradeSection } from '../UpgradeSection';
-import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionmarkIcon, UpgradeIcon, FieldIcon } from '../ui/icons';
+import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionMarkIcon, UpgradeIcon, FieldIcon } from '../ui/icons';
 
 export function RightSideBar() {
   const { farmWindowOpen } = useUIContext();
@@ -46,7 +46,7 @@ export function RightSideBar() {
           <Popover.Root>
             <Popover.Trigger asChild>
               <IconButton variant="ghost" size="md">
-                <QuestionmarkIcon size={24} color={'yellow'} />
+                <QuestionMarkIcon size={24} color={'yellow'} />
               </IconButton>
             </Popover.Trigger>
             <Portal>

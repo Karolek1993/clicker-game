@@ -54,7 +54,7 @@ export function TractorIcon(props: IconProps) {
   return <GiFarmTractor size={props.size} color={props.color} />;
 }
 
-export function QuestionmarkIcon(props: IconProps) {
+export function QuestionMarkIcon(props: IconProps) {
   return <HiMiniQuestionMarkCircle size={props.size} color={props.color} />;
 }
 
