@@ -83,21 +83,7 @@ export function RightSideBar() {
             text="Upgrade"
           />
         </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
-            <FieldIcon size={32} color={'yellow'} />
-            <Text fontSize={'xl'}>
-              {wheatFieldAmount} / {wheatFieldMaxAmount}
-            </Text>
-          </Box>
-          <CustomButton
-            disabled={wheatFieldAmount >= wheatFieldMaxAmount}
-            tooltip={wheatFieldAmount >= wheatFieldMaxAmount ? 'Max' : useCurrencyFormater(wheatFieldCost)}
-            tooltipPlacement="left"
-            onClick={() => upgradeWheatField(wheatFieldCost, 1)}
-            text="Buy"
-          />
-        </Box>
+
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
           <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
             <FarmerIcon size={32} color={'yellow'} />
@@ -111,6 +97,21 @@ export function RightSideBar() {
             tooltipPlacement="left"
             onClick={() => hireFarmWorker(farmWorkerCost, 1)}
             text="Hire"
+          />
+        </Box>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} width={'50%'} alignItems={'center'}>
+            <FieldIcon size={32} color={'yellow'} />
+            <Text fontSize={'xl'}>
+              {wheatFieldAmount} / {wheatFieldMaxAmount}
+            </Text>
+          </Box>
+          <CustomButton
+            disabled={wheatFieldAmount >= wheatFieldMaxAmount}
+            tooltip={wheatFieldAmount >= wheatFieldMaxAmount ? 'Max' : useCurrencyFormater(wheatFieldCost)}
+            tooltipPlacement="left"
+            onClick={() => upgradeWheatField(wheatFieldCost, 1)}
+            text="Buy"
           />
         </Box>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
