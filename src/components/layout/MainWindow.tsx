@@ -4,10 +4,10 @@ import { useUIContext } from '../../context/UIContext';
 import { useGameLogicContext } from '../../context/GameLogicContext';
 import { Divider } from '../ui/divider';
 import { Crop } from '../Crop';
-import { WheatIcon, FieldIcon } from '../ui/icons';
+import { WheatIcon, FieldIcon, WindmillIcon } from '../ui/icons';
 
 export function MainWindow() {
-  const { farmWindowOpen } = useUIContext();
+  const { farmWindowOpen, windmillWindowOpen } = useUIContext();
   const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, wheatFieldAmount } = useGameLogicContext();
 
   return (
@@ -35,6 +35,15 @@ export function MainWindow() {
               </WrapItem>
             ))}
           </Wrap>
+        </Box>
+        <Box display={windmillWindowOpen ? 'flex' : 'none'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
+          <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
+            <WindmillIcon size={48} color="yellow" />
+            <Text fontSize={'xl'} fontWeight={'bolder'}>
+              WINDMILL
+            </Text>
+          </Box>
+          <Divider thickness={1} width={'100%'} />
         </Box>
       </Box>
     </Box>

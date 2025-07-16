@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 
-interface TimerProps  {
+interface TimerProps {
   target: number;
   callback: () => void;
-};
+}
 
-export function useTimer(props: TimerProps) {
+export function useTimer_Loop(props: TimerProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startInterval = () => {

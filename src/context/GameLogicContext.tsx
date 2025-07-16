@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
 
-import { useTimer } from '../hooks/Timer';
+import { useTimer_Loop } from '../hooks/Timer';
 
 interface GameLogicContextProps {
   moneyAmount: number;
@@ -167,7 +167,7 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     }
   }, [tractorAmount]);
 
-  useTimer({ target: autoHarvestTargetSeconds, callback: autoHarvestWheat });
+  useTimer_Loop({ target: autoHarvestTargetSeconds, callback: autoHarvestWheat });
 
   function autoHarvestWheat() {
     if (wheatAmount < wheatStorageAmount && tractorAmount > 0) {

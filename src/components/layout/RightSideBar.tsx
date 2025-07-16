@@ -8,7 +8,7 @@ import { UpgradeSection } from '../UpgradeSection';
 import { FarmerIcon, SiloIcon, FertilizerIcon, TractorIcon, QuestionMarkIcon, UpgradeIcon, FieldIcon } from '../ui/icons';
 
 export function RightSideBar() {
-  const { farmWindowOpen } = useUIContext();
+  const { farmWindowOpen, windmillWindowOpen } = useUIContext();
   const {
     wheatFieldAmount,
     wheatFieldMaxAmount,
@@ -114,6 +114,31 @@ export function RightSideBar() {
           upgradeAmount={1}
           upgrade={upgradeTractor}
         />
+      </Box>
+      <Box display={windmillWindowOpen ? 'flex' : 'none'} flexDirection={'column'} width={'100%'} border={'2px solid black'} padding={2} gap={2}>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <Text fontSize={'xl'} fontWeight={'bolder'}>
+            WINDMILL UPGRADES
+          </Text>
+          <Popover.Root>
+            <Popover.Trigger asChild>
+              <IconButton variant="ghost" size="md">
+                <QuestionMarkIcon size={24} color={'yellow'} />
+              </IconButton>
+            </Popover.Trigger>
+            <Portal>
+              <Popover.Positioner>
+                <Popover.Content width={'720px'} borderRadius={0}>
+                  <Popover.Body display={'flex'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
+                    <CustomPopoverContent icon={<UpgradeIcon size={32} color={'yellow'} />} text={'Increase other upgrades capacity by 5. '} />
+                  </Popover.Body>
+                </Popover.Content>
+              </Popover.Positioner>
+            </Portal>
+          </Popover.Root>
+        </Box>
+        <Divider thickness={1} width={'100%'} />
+        <UpgradeSection icon={<UpgradeIcon size={32} color={'yellow'} />} amount={null!} maxAmount={null!} cost={null!} upgradeAmount={1} upgrade={null!} />
       </Box>
     </Box>
   );
