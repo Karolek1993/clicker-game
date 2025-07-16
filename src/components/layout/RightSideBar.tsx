@@ -173,7 +173,7 @@ export function RightSideBar() {
           amount={flourStorageUpgradeAmount}
           maxAmount={flourStorageUpgradeMaxAmount}
           cost={flourStorageUpgradeCost}
-          upgradeAmount={1}
+          upgradeAmount={100}
           upgrade={upgradeFlourStorage}
         />
       </Box>

@@ -8,7 +8,7 @@ import { WheatIcon, FieldIcon, WindmillIcon, FlourIcon } from '../ui/icons';
 
 export function MainWindow() {
   const { farmWindowOpen, windmillWindowOpen } = useUIContext();
-  const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, wheatFieldAmount, flourAmount, flourStorageAmount, makeFlour } = useGameLogicContext();
+  const { harvestWheat, wheatAmount, wheatStorageAmount, cropRespawnTime, wheatFieldAmount, flourAmount, flourStorageAmount, makeFlour, flourRespawnTime } = useGameLogicContext();
 
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} border={'3px solid black'} width={'50%'} height={'100%'}>
@@ -48,7 +48,7 @@ export function MainWindow() {
             {Array.from({ length: 9 }, (_, index) => (
               <WrapItem key={index}>
                 <Item
-                  itemRespawnTime={cropRespawnTime}
+                  itemRespawnTime={flourRespawnTime}
                   itemName="Flour"
                   itemCount={flourAmount}
                   itemStorage={flourStorageAmount}

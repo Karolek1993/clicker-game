@@ -5,6 +5,7 @@ import { useTimer_Loop } from '../hooks/Timer';
 interface GameLogicContextProps {
   moneyAmount: number;
   cropRespawnTime: number;
+  flourRespawnTime: number;
 
   farmLevel: number;
   wheatFieldAmount: number;
@@ -71,6 +72,7 @@ const GameLogicContext = createContext<GameLogicContextProps | undefined>(undefi
 export function GameLogicContextProvider({ children }: { children: React.ReactNode }) {
   const [moneyAmount, setMoneyAmount] = useState<number>(Infinity);
   const [cropRespawnTime, setCropRespawnTime] = useState<number>(60);
+  const [flourRespawnTime, setFlourRespawnTime] = useState<number>(60);
 
   const [farmLevel, setFarmLevel] = useState<number>(1);
   const [wheatFieldAmount, setWheatFieldAmount] = useState<number>(0);
@@ -218,6 +220,7 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
   useEffect(() => {
     for (let i = 0; i < windmillWorkersAmount; i++) {
+      setFlourRespawnTime(flourRespawnTime - 1);
       setWindmillWorkerCost(windmillWorkerCost * windmillWorkersAmount);
     }
   }, [windmillWorkersAmount]);
@@ -317,15 +320,14 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   }
 
   function makeFlour() {
-    if (wheatAmount <= 0) {
+    if (wheatAmount <= 2) {
       return;
     }
 
     let newFlour: number = flourAmount;
-    let currentWheat = wheatAmount;
 
     newFlour += 1;
-    setWheatAmount(currentWheat - 1);
+    setWheatAmount(wheatAmount - 2);
 
     if (newFlour >= flourStorageAmount) {
       newFlour = flourStorageAmount;
@@ -554,6 +556,7 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       value={{
         moneyAmount,
         cropRespawnTime,
+        flourRespawnTime,
         farmLevel,
         wheatFieldAmount,
         wheatAmount,
