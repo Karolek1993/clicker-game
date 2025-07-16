@@ -4,6 +4,7 @@ import { toaster } from './ui/toaster';
 
 interface CropProps {
   icon: React.ReactNode;
+  enabled?: boolean;
   itemName: string;
   itemCount: number;
   itemStorage: number;
@@ -19,6 +20,8 @@ export function Item(props: CropProps) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function handleClick() {
+    if (!props.enabled) return;
+
     if (active) {
       return;
     }

@@ -320,10 +320,6 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   }
 
   function makeFlour() {
-    if (wheatAmount <= 2) {
-      return;
-    }
-
     let newFlour: number = flourAmount;
 
     newFlour += 1;

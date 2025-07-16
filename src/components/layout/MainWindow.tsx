@@ -25,6 +25,7 @@ export function MainWindow() {
             {Array.from({ length: 9 + wheatFieldAmount }, (_, index) => (
               <WrapItem key={index}>
                 <Item
+                  enabled
                   itemRespawnTime={cropRespawnTime}
                   itemName="Wheat"
                   itemCount={wheatAmount}
@@ -48,6 +49,7 @@ export function MainWindow() {
             {Array.from({ length: 9 }, (_, index) => (
               <WrapItem key={index}>
                 <Item
+                  enabled={wheatAmount > 1}
                   itemRespawnTime={flourRespawnTime}
                   itemName="Flour"
                   itemCount={flourAmount}
