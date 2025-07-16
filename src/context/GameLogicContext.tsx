@@ -40,6 +40,28 @@ interface GameLogicContextProps {
   upgradeFerilizer: (cost: number, amount: number) => void;
   upgradeTractor: (cost: number, amount: number) => void;
 
+  windmillLevel: number;
+  windmillWorkersAmount: number;
+  flourAmount: number;
+  flourStorageUpgradeAmount: number;
+
+  windmillLevelMax: number;
+  windmillWorkersMaxAmount: number;
+  flourStorageUpgradeMaxAmount: number;
+
+  windmillLevelCost: number;
+  windmillWorkerCost: number;
+  flourStorageUpgradeCost: number;
+
+  flourStorageAmount: number;
+
+  makeFlour: () => void;
+  sellFlour: (money: number) => void;
+
+  upgradeWindmill: (cost: number, amount: number) => void;
+  hireWindmillWorker: (cost: number, amount: number) => void;
+  upgradeFlourStorage: (cost: number, amount: number) => void;
+
   saveGame: () => void;
   loadGame: () => void;
 }
@@ -75,6 +97,21 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
   const [wheatStorageAmount, setWheatStorageAmount] = useState<number>(100);
 
   const [autoHarvestTargetSeconds, setAutoHarvestTargetSeconds] = useState<number>(60000); // 1000 ms = 1 seconds
+
+  const [windmillLevel, setWindmillLevel] = useState<number>(1);
+  const [windmillWorkersAmount, setWindmillWorkersAmount] = useState<number>(0);
+  const [flourAmount, setFlourAmount] = useState<number>(0);
+  const [flourStorageUpgradeAmount, setFlourStorageUpgradeAmount] = useState<number>(0);
+
+  const [windmillLevelMax] = useState<number>(10);
+  const [windmillWorkersMaxAmount, setWindmillWorkersMaxAmount] = useState<number>(10);
+  const [flourStorageUpgradeMaxAmount, setFlourStorageUpgradeMaxAmount] = useState<number>(10);
+
+  const [windmillLevelCost, setWindmillLevelCost] = useState<number>(100000);
+  const [windmillWorkerCost, setWindmillWorkerCost] = useState<number>(100);
+  const [flourStorageUpgradeCost, setFlourStorageUpgradeCost] = useState<number>(5000);
+
+  const [flourStorageAmount, setFlourStorageAmount] = useState<number>(100);
 
   useEffect(() => {
     for (let i = 0; i < farmLevel; i++) {
@@ -169,6 +206,28 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
 
   useTimer_Loop({ target: autoHarvestTargetSeconds, callback: autoHarvestWheat });
 
+  useEffect(() => {
+    for (let i = 0; i < windmillLevel; i++) {
+      if (windmillLevel > 1) {
+        setWindmillWorkersMaxAmount(windmillWorkersMaxAmount + 5);
+        setFlourStorageUpgradeMaxAmount(flourStorageUpgradeMaxAmount + 5);
+        setWindmillLevelCost(windmillLevelCost * windmillLevel);
+      }
+    }
+  }, [windmillLevel]);
+
+  useEffect(() => {
+    for (let i = 0; i < windmillWorkersAmount; i++) {
+      setWindmillWorkerCost(windmillWorkerCost * windmillWorkersAmount);
+    }
+  }, [windmillWorkersAmount]);
+
+  useEffect(() => {
+    for (let i = 0; i < flourStorageUpgradeAmount; i++) {
+      setFlourStorageUpgradeCost(flourStorageUpgradeCost * flourStorageUpgradeAmount);
+    }
+  }, [flourStorageUpgradeAmount]);
+
   function autoHarvestWheat() {
     if (wheatAmount < wheatStorageAmount && tractorAmount > 0) {
       harvestWheat();
@@ -257,6 +316,63 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
     setMoneyAmount(moneyAmount - cost);
   }
 
+  function makeFlour() {
+    if (wheatAmount <= 0) {
+      return;
+    }
+
+    let newFlour: number = flourAmount;
+    let currentWheat = wheatAmount;
+
+    newFlour += 1;
+    setWheatAmount(currentWheat - 1);
+
+    if (newFlour >= flourStorageAmount) {
+      newFlour = flourStorageAmount;
+    }
+
+    setFlourAmount(newFlour);
+  }
+
+  function sellFlour(money: number) {
+    if (flourAmount <= 0) {
+      return;
+    }
+
+    const currentFlour = flourAmount;
+
+    setFlourAmount(flourAmount - currentFlour);
+    setMoneyAmount(moneyAmount + currentFlour * money);
+  }
+
+  function upgradeWindmill(cost: number, amount: number) {
+    if (moneyAmount < cost || windmillLevel >= windmillLevelMax) {
+      return;
+    }
+
+    setWindmillLevel(windmillLevel + amount);
+    setMoneyAmount(moneyAmount - cost);
+  }
+
+  function hireWindmillWorker(cost: number, amount: number) {
+    if (moneyAmount < cost || windmillWorkersAmount >= windmillWorkersMaxAmount) {
+      return;
+    }
+
+    setWindmillWorkersAmount(windmillWorkersAmount + amount);
+    setMoneyAmount(moneyAmount - cost);
+  }
+
+  function upgradeFlourStorage(cost: number, amount: number) {
+    if (moneyAmount < cost || flourStorageUpgradeAmount >= flourStorageUpgradeMaxAmount) {
+      return;
+    }
+
+    setFlourStorageUpgradeAmount(flourStorageUpgradeAmount + 1);
+    setFlourStorageAmount(flourStorageAmount + amount);
+    setMoneyAmount(moneyAmount - cost);
+  }
+
   function saveGame() {
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -286,6 +402,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         localStorage.setItem('farmLevelCost', farmLevelCost.toString());
         localStorage.setItem('wheatFieldAmount', wheatFieldAmount.toString());
         localStorage.setItem('wheatFieldCost', wheatFieldCost.toString());
+        localStorage.setItem('windmillLevel', windmillLevel.toString());
+        localStorage.setItem('windmillWorkersAmount', windmillWorkersAmount.toString());
+        localStorage.setItem('windmillWorkersCost', windmillWorkerCost.toString());
+        localStorage.setItem('windmillLevelCost', windmillLevelCost.toString());
+        localStorage.setItem('windmillWorkersMaxAmount', windmillWorkersMaxAmount.toString());
+        localStorage.setItem('flourAmount', flourAmount.toString());
+        localStorage.setItem('flourStorageAmount', flourStorageAmount.toString());
+        localStorage.setItem('flourStorageUpgradeAmount', flourStorageUpgradeAmount.toString());
+        localStorage.setItem('flourStorageUpgradeCost', flourStorageUpgradeCost.toString());
+        localStorage.setItem('flourStorageUpgradeMaxAmount', flourStorageUpgradeMaxAmount.toString());
+        localStorage.setItem('windmillLevelMax', windmillLevelMax.toString());
+        localStorage.setItem('windmillWorkersMaxAmount', windmillWorkersMaxAmount.toString());
       }, 500);
     }, [
       moneyAmount,
@@ -307,6 +435,16 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       farmLevelCost,
       wheatFieldAmount,
       wheatFieldCost,
+      windmillLevel,
+      windmillWorkersAmount,
+      windmillWorkerCost,
+      windmillLevelCost,
+      windmillWorkersMaxAmount,
+      flourAmount,
+      flourStorageAmount,
+      flourStorageUpgradeAmount,
+      flourStorageUpgradeCost,
+      flourStorageUpgradeMaxAmount,
     ]);
   }
 
@@ -332,6 +470,17 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
       const savedFarmLevelCost = localStorage.getItem('farmLevelCost');
       const savedWheatFieldAmount = localStorage.getItem('wheatFieldAmount');
       const savedWheatFieldCost = localStorage.getItem('wheatFieldCost');
+      const savedWindmillLevel = localStorage.getItem('windmillLevel');
+      const savedWindmillWorkersAmount = localStorage.getItem('windmillWorkersAmount');
+      const savedWindmillWorkersCost = localStorage.getItem('windmillWorkersCost');
+      const savedWindmillLevelCost = localStorage.getItem('windmillLevelCost');
+      const savedFlourAmount = localStorage.getItem('flourAmount');
+      const savedFlourStorageAmount = localStorage.getItem('flourStorageAmount');
+      const savedFlourStorageUpgradeAmount = localStorage.getItem('flourStorageUpgradeAmount');
+      const savedFlourStorageUpgradeCost = localStorage.getItem('flourStorageUpgradeCost');
+      const savedFlourStorageUpgradeMaxAmount = localStorage.getItem('flourStorageUpgradeMaxAmount');
+      const savedWindmillLevelMax = localStorage.getItem('windmillLevelMax');
+      const savedWindmillWorkersMaxAmount = localStorage.getItem('windmillWorkersMaxAmount');
 
       if (
         savedMoney &&
@@ -353,7 +502,18 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         savedFarmLevel &&
         savedFarmLevelCost &&
         savedWheatFieldAmount &&
-        savedWheatFieldCost
+        savedWheatFieldCost &&
+        savedWindmillLevel &&
+        savedWindmillWorkersAmount &&
+        savedWindmillWorkersCost &&
+        savedWindmillLevelCost &&
+        savedFlourAmount &&
+        savedFlourStorageAmount &&
+        savedFlourStorageUpgradeAmount &&
+        savedFlourStorageUpgradeCost &&
+        savedFlourStorageUpgradeMaxAmount &&
+        savedWindmillLevelMax &&
+        savedWindmillWorkersMaxAmount
       ) {
         setMoneyAmount(parseInt(savedMoney));
         setWheatAmount(parseInt(savedWheat));
@@ -375,6 +535,16 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         setFarmLevelCost(parseInt(savedFarmLevelCost));
         setWheatFieldAmount(parseInt(savedWheatFieldAmount));
         setWheatFieldCost(parseInt(savedWheatFieldCost));
+        setWindmillLevel(parseInt(savedWindmillLevel));
+        setWindmillWorkersAmount(parseInt(savedWindmillWorkersAmount));
+        setWindmillWorkerCost(parseInt(savedWindmillWorkersCost));
+        setWindmillLevelCost(parseInt(savedWindmillLevelCost));
+        setFlourAmount(parseInt(savedFlourAmount));
+        setFlourStorageAmount(parseInt(savedFlourStorageAmount));
+        setFlourStorageUpgradeAmount(parseInt(savedFlourStorageUpgradeAmount));
+        setFlourStorageUpgradeCost(parseInt(savedFlourStorageUpgradeCost));
+        setFlourStorageUpgradeMaxAmount(parseInt(savedFlourStorageUpgradeMaxAmount));
+        setWindmillWorkersMaxAmount(parseInt(savedWindmillWorkersMaxAmount));
       }
     }, []);
   }
@@ -412,6 +582,22 @@ export function GameLogicContextProvider({ children }: { children: React.ReactNo
         upgradeWheatStorage,
         upgradeFerilizer,
         upgradeTractor,
+        windmillLevel,
+        windmillWorkersAmount,
+        flourAmount,
+        flourStorageUpgradeAmount,
+        windmillLevelMax,
+        windmillWorkersMaxAmount,
+        flourStorageUpgradeMaxAmount,
+        windmillLevelCost,
+        windmillWorkerCost,
+        flourStorageUpgradeCost,
+        upgradeWindmill,
+        hireWindmillWorker,
+        upgradeFlourStorage,
+        flourStorageAmount,
+        makeFlour,
+        sellFlour,
 
         saveGame,
         loadGame,

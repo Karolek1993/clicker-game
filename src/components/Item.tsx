@@ -1,18 +1,18 @@
 import { Box, Float, Circle, Text } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
-import { toaster } from '../components/ui/toaster';
+import { toaster } from './ui/toaster';
 
 interface CropProps {
   icon: React.ReactNode;
-  cropName: string;
-  cropCount: number;
-  cropStorage: number;
-  cropRespawnTime: number;
+  itemName: string;
+  itemCount: number;
+  itemStorage: number;
+  itemRespawnTime: number;
   onClick: () => void;
 }
 
-export function Crop(props: CropProps) {
-  const targetSeconds: number = props.cropRespawnTime;
+export function Item(props: CropProps) {
+  const targetSeconds: number = props.itemRespawnTime;
 
   const [active, setActive] = useState<boolean>(false);
   const [secondsLeft, setSecondsLeft] = useState<number>(targetSeconds);
@@ -23,9 +23,9 @@ export function Crop(props: CropProps) {
       return;
     }
 
-    if (props.cropCount >= props.cropStorage) {
+    if (props.itemCount >= props.itemStorage) {
       toaster.create({
-        description: props.cropName + ' Storage is full!',
+        description: props.itemName + ' Storage is full!',
         type: 'error',
         duration: 1000,
       });
@@ -68,7 +68,7 @@ export function Crop(props: CropProps) {
       borderColor={'black'}
       padding={2}
       onClick={() => handleClick()}
-      _hover={{ cursor: 'pointer', bg: active ? 'none' : props.cropCount >= props.cropStorage ? 'none' : 'grey' }}
+      _hover={{ cursor: 'pointer', bg: active ? 'none' : props.itemCount >= props.itemStorage ? 'none' : 'grey' }}
     >
       <Box display={targetSeconds <= 0 ? 'none' : 'flex'}>
         <Float display={active ? 'flex' : 'none'} offset={3}>

@@ -3,11 +3,11 @@ import { Box, Text } from '@chakra-ui/react';
 import { CustomButton } from './ui/custom-button';
 
 interface StorageSectionProps {
-    icon: React.ReactNode;
-    amount: number;
-    maxAmount: number;
-    sell: (amount: number) => void;
-    sellAmount: number;
+  icon: React.ReactNode;
+  amount: number;
+  maxAmount: number;
+  sell: (amount: number) => void;
+  sellPrice: number;
 }
 
 export function StorageSection(props: StorageSectionProps) {
@@ -19,7 +19,7 @@ export function StorageSection(props: StorageSectionProps) {
           {props.amount} / {props.maxAmount}
         </Text>
       </Box>
-      <CustomButton onClick={() => props.sell(props.sellAmount)} text="Sell" />
+      <CustomButton onClick={() => props.sell(props.sellPrice)} text="Sell" />
     </Box>
   );
 }

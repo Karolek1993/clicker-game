@@ -34,6 +34,18 @@ export function RightSideBar() {
     farmLevelMax,
     farmLevelCost,
     upgradeFarm,
+    windmillLevel,
+    windmillLevelMax,
+    windmillLevelCost,
+    upgradeWindmill,
+    windmillWorkersAmount,
+    windmillWorkersMaxAmount,
+    windmillWorkerCost,
+    hireWindmillWorker,
+    flourStorageUpgradeMaxAmount,
+    flourStorageUpgradeAmount,
+    flourStorageUpgradeCost,
+    upgradeFlourStorage,
   } = useGameLogicContext();
 
   return (
@@ -131,6 +143,8 @@ export function RightSideBar() {
                 <Popover.Content width={'720px'} borderRadius={0}>
                   <Popover.Body display={'flex'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'center'} gap={2}>
                     <CustomPopoverContent icon={<UpgradeIcon size={32} color={'yellow'} />} text={'Increase other upgrades capacity by 5. '} />
+                    <CustomPopoverContent icon={<FarmerIcon size={32} color={'yellow'} />} text={'Increase the work speed by 1 second.'} />
+                    <CustomPopoverContent icon={<SiloIcon size={32} color={'yellow'} />} text={'Increase the storage capacity by 100.'} />
                   </Popover.Body>
                 </Popover.Content>
               </Popover.Positioner>
@@ -138,7 +152,30 @@ export function RightSideBar() {
           </Popover.Root>
         </Box>
         <Divider thickness={1} width={'100%'} />
-        <UpgradeSection icon={<UpgradeIcon size={32} color={'yellow'} />} amount={null!} maxAmount={null!} cost={null!} upgradeAmount={1} upgrade={null!} />
+        <UpgradeSection
+          icon={<UpgradeIcon size={32} color={'yellow'} />}
+          amount={windmillLevel}
+          maxAmount={windmillLevelMax}
+          cost={windmillLevelCost}
+          upgradeAmount={1}
+          upgrade={upgradeWindmill}
+        />
+        <UpgradeSection
+          icon={<FarmerIcon size={32} color={'yellow'} />}
+          amount={windmillWorkersAmount}
+          maxAmount={windmillWorkersMaxAmount}
+          cost={windmillWorkerCost}
+          upgradeAmount={1}
+          upgrade={hireWindmillWorker}
+        />
+        <UpgradeSection
+          icon={<SiloIcon size={32} color={'yellow'} />}
+          amount={flourStorageUpgradeAmount}
+          maxAmount={flourStorageUpgradeMaxAmount}
+          cost={flourStorageUpgradeCost}
+          upgradeAmount={1}
+          upgrade={upgradeFlourStorage}
+        />
       </Box>
     </Box>
   );
