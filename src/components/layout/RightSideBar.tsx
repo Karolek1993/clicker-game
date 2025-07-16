@@ -73,7 +73,6 @@ export function RightSideBar() {
           cost={farmLevelCost}
           upgradeAmount={1}
           upgrade={upgradeFarm}
-          text="Upgrade"
         />
         <UpgradeSection
           icon={<FarmerIcon size={32} color={'yellow'} />}
@@ -82,7 +81,6 @@ export function RightSideBar() {
           cost={farmWorkerCost}
           upgradeAmount={1}
           upgrade={hireFarmWorker}
-          text="Hire"
         />
         <UpgradeSection
           icon={<FieldIcon size={32} color={'yellow'} />}
@@ -91,7 +89,6 @@ export function RightSideBar() {
           cost={wheatFieldCost}
           upgradeAmount={1}
           upgrade={upgradeWheatField}
-          text="Buy"
         />
         <UpgradeSection
           icon={<SiloIcon size={32} color={'yellow'} />}
@@ -100,7 +97,6 @@ export function RightSideBar() {
           cost={wheatStorageUpgradeCost}
           upgradeAmount={100}
           upgrade={upgradeWheatStorage}
-          text="Buy"
         />
         <UpgradeSection
           icon={<FertilizerIcon size={32} color={'yellow'} />}
@@ -109,7 +105,6 @@ export function RightSideBar() {
           cost={fertilizerCost}
           upgradeAmount={1}
           upgrade={upgradeFerilizer}
-          text="Buy"
         />
         <UpgradeSection
           icon={<TractorIcon size={32} color={'yellow'} />}
@@ -118,7 +113,6 @@ export function RightSideBar() {
           cost={tractorCost}
           upgradeAmount={1}
           upgrade={upgradeTractor}
-          text="Buy"
         />
       </Box>
     </Box>

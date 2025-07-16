@@ -11,7 +11,7 @@ interface UpgradeSectionProps {
   cost: number;
   upgradeAmount: number;
   upgrade: (cost: number, amount: number) => void;
-  text: string;
+  text?: string;
 }
 
 export function UpgradeSection(props: UpgradeSectionProps) {
@@ -28,7 +28,7 @@ export function UpgradeSection(props: UpgradeSectionProps) {
         tooltip={props.amount >= props.maxAmount ? 'Max' : useCurrencyFormater(props.cost)}
         tooltipPlacement="left"
         onClick={() => props.upgrade(props.cost, props.upgradeAmount)}
-        text={props.text}
+        text={props.text || 'Upgrade'}
       />
     </Box>
   );
